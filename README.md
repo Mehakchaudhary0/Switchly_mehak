@@ -133,3 +133,20 @@ The `description` field is therefore **optional when creating a flag**.
 ### 6. Delete Flag
 
 ![Delete Flag](switchly/images/6.png)    
+
+
+
+### 3. Think, don't code a customer wants new-checkout on in their test environment but off for real users. What in your current design would have to change?
+
+The current design stores only one `enabled` value for each flag. Therefore, if `new-checkout` is turned ON, it is ON for everyone, and if it is turned OFF, it is OFF for everyone.
+
+To support `new-checkout` being ON in the test environment but OFF for real users, the design would need environment-specific flag states.
+
+The `Flag` model would need to associate an enabled/disabled state with environments such as `test` and `production`. The repository and service would need to retrieve and update the state for a specific environment, and the API would need to accept the environment when checking or changing a flag.
+
+Conceptually:
+
+* `new-checkout` → `test` → ON
+* `new-checkout` → `production` → OFF
+
+The current single `enabled` field would therefore need to be replaced or extended with environment-specific state management.
