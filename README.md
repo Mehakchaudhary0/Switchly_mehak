@@ -106,30 +106,30 @@ The API can now accept a flag with or without a description.
 }
 ```
 The `description` field is therefore **optional when creating a flag**.
+
    
-                
-   ## Screenshots
+  ## Screenshots
 
 ### 1. Create Organization
 
-![Create Organization](images/1.png)
+![Create Organization](switchly/images/1.png)
 
 ### 2. Create Project
 
-![Create Project](images/2.png)
+![Create Project](switchly/images/2.png)
 
 ### 3. Create Flag
 
-![Create Flag](images/3.png)
+![Create Flag](switchly/images/3.png)
 
 ### 4. Turn Flag ON
 
-![Turn Flag ON](images/4.png)
+![Turn Flag ON](switchly/images/4.png)
 
 ### 5. Check Flag Status
 
-![Check Flag Status](images/5.png)
+![Check Flag Status](switchly/images/5.png)
 
 ### 6. Delete Flag
 
-![Delete Flag](images/6.png)             
+![Delete Flag](switchly/images/6.png)    
