@@ -3,6 +3,7 @@
 ## ASSIGNMENT FOR SESSION 2
 
 ## 1- Add a description field to Flag. Optional when creating. Which files did you have to touch — and which didn't you?. The field should be optional when creating a flag.
+## 2- Add DELETE /api/v1/flags/{flagId}. Return 204 No Content. Deleting a flag that doesn't exist should return 404.
 
 ### Files Touched
 
@@ -104,8 +105,31 @@ The API can now accept a flag with or without a description.
     "name": "New Checkout"
 }
 ```
-
 The `description` field is therefore **optional when creating a flag**.
    
                 
-                
+   ## Screenshots
+
+### 1. Create Organization
+
+![Create Organization](images/1.png)
+
+### 2. Create Project
+
+![Create Project](images/2.png)
+
+### 3. Create Flag
+
+![Create Flag](images/3.png)
+
+### 4. Turn Flag ON
+
+![Turn Flag ON](images/4.png)
+
+### 5. Check Flag Status
+
+![Check Flag Status](images/5.png)
+
+### 6. Delete Flag
+
+![Delete Flag](images/6.png)             
