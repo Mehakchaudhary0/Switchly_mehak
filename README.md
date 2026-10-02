@@ -1,102 +1,111 @@
 # Switchly_mehak
 
-ASSIGNMENT FOR SESSION 2
+## ASSIGNMENT FOR SESSION 2
 
-1- Add a description field to Flag. Optional when creating. Which files did you have to touch — and which didn't you?
+## 1- Add a description field to Flag. Optional when creating. Which files did you have to touch — and which didn't you?. The field should be optional when creating a flag.
 
-List of files touched & what was added:
-       Controller layer
-                     Flag Controller ->                    request.description()            line 34
-        dto
-                CreateFlagRequest ->                   String description                   line 14
-        model
-                Flag ->                        private final String description;            line 12
-                                                this.description = description;             line 22
-                                     public String getDescription() { return description;}  line 31
-        service
-                Flagservice ->    
-                                package live.switchly.api.service;
-                                import live.switchly.api.exception.ConflictException;
-                                import live.switchly.api.exception.NotFoundException;
-                                import live.switchly.api.model.Flag;
-                                import live.switchly.api.model.Project;
-                                import live.switchly.api.repository.FlagRepository;
-                                import live.switchly.api.repository.ProjectRepository;
-                                import org.springframework.stereotype.Service;
-                                
-                                import java.util.List;
-                                import java.util.UUID;
-                                
-                                @Service
-                                public class FlagService {
-                                
-                                    private final FlagRepository flagRepository;
-                                    private final ProjectRepository projectRepository;
-                                
-                                    public FlagService(
-                                            FlagRepository flagRepository,
-                                            ProjectRepository projectRepository) {
-                                
-                                        this.flagRepository = flagRepository;
-                                        this.projectRepository = projectRepository;
-                                    }
-                                
-                                    public Flag create(
-                                            UUID projectId,
-                                            String key,
-                                            String name,
-                                            String description) {
-                                
-                                        Project project = projectRepository.findById(projectId)
-                                                .orElseThrow(() ->
-                                                        new NotFoundException("Project " + projectId + " not found"));
-                                
-                                        if (flagRepository.existsByProjectIdAndKey(projectId, key)) {
-                                            throw new ConflictException(
-                                                    "Flag with key " + key + " already exists in project " + projectId);
-                                        }
-                                
-                                        Flag flag = new Flag(
-                                                UUID.randomUUID(),
-                                                project.getOrganizationId(),
-                                                projectId,
-                                                key,
-                                                name,
-                                                description,
-                                                false
-                                        );
-                                
-                                        return flagRepository.save(flag);
-                                    }
-                                
-                                    public List<Flag> getAllForProject(UUID projectId) {
-                                        projectRepository.findById(projectId)
-                                                .orElseThrow(() ->
-                                                        new NotFoundException("Project " + projectId + " not found"));
-                                
-                                        return flagRepository.findByProjectId(projectId);
-                                    }
-                                
-                                    public Flag getById(UUID flagId) {
-                                        return flagRepository.findById(flagId)
-                                                .orElseThrow(() ->
-                                                        new NotFoundException("Flag " + flagId + " not found"));
-                                    }
-                                
-                                    public Flag setEnabled(UUID flagId, boolean enabled) {
-                                        Flag flag = getById(flagId);
-                                
-                                        flag.setEnabled(enabled);
-                                
-                                        return flagRepository.save(flag);
-                                    }
-                                
-                                    public void delete(UUID flagId) {
-                                        Flag flag = getById(flagId);
-                                
-                                        flagRepository.deleteById(flag.getId());
-                                    }
-                                }
-            
+### Files Touched
+
+#### 1. Controller Layer — `FlagController.java`
+
+**Change:** Passed the optional description from the request to the service.
+
+```java
+request.description()
+```
+
+**Location:** Line 34
+
+---
+
+#### 2. DTO Layer — `CreateFlagRequest.java`
+
+**Change:** Added the optional `description` field to the request record.
+
+```java
+String description
+```
+
+**Location:** Line 14
+
+No validation annotation was added because the description is optional.
+
+---
+
+#### 3. Model Layer — `Flag.java`
+
+**Changes:**
+
+Added the description field:
+
+```java
+private final String description;
+```
+
+**Location:** Line 12
+
+Added `description` to the constructor:
+
+```java
+this.description = description;
+```
+
+**Location:** Line 22
+
+Added a getter:
+
+```java
+public String getDescription() {
+    return description;
+}
+```
+
+**Location:** Line 31
+
+---
+
+#### 4. Service Layer — `FlagService.java`
+
+**Changes:**
+
+Updated the `create()` method to accept the optional description:
+
+```java
+public Flag create(
+        UUID projectId,
+        String key,
+        String name,
+        String description)
+```
+
+The description is then passed to the `Flag` object when a new flag is created.
+
+The service also contains the existing flag creation, retrieval, state update, and validation logic.
+
+### Result
+
+The API can now accept a flag with or without a description.
+
+**With description:**
+
+```json
+{
+    "key": "new-checkout",
+    "name": "New Checkout",
+    "description": "New checkout experience"
+}
+```
+
+**Without description:**
+
+```json
+{
+    "key": "new-checkout",
+    "name": "New Checkout"
+}
+```
+
+The `description` field is therefore **optional when creating a flag**.
+   
                 
                 
